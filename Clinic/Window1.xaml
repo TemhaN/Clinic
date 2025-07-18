@@ -1,0 +1,157 @@
+﻿<Window x:Class="WpfApp20.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp20"
+        xmlns:wpf="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Услуги" Height="800" Width="1100"
+        Background="#F5F7FA" WindowStyle="None">
+    <Window.Resources>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Background" Value="#3AADA1"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2E8B83"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" Padding="10">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E6ECEC"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#E6ECEC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="5">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="2"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Border Background="#FFFFFF" Width="200" HorizontalAlignment="Left" BorderBrush="#E6ECEC" BorderThickness="0,0,1,0">
+            <StackPanel Margin="10">
+                <TextBlock Text="Санаторий" FontSize="20" FontWeight="Bold" Margin="0,10,0,20"/>
+                <Button Content="Записи" Style="{StaticResource MenuButton}" Click="NavigateToAppointments"/>
+                <Button Content="Лечение" Style="{StaticResource MenuButton}" Click="NavigateToTreatment"/>
+                <Button Content="Персонал" Style="{StaticResource MenuButton}" Click="NavigateToStaff"/>
+                <Button Content="Пациенты" Style="{StaticResource MenuButton}" Click="NavigateToPatients"/>
+                <Button Content="Расписание" Style="{StaticResource MenuButton}" Click="NavigateToSchedule"/>
+                <Button Content="Статистика" Style="{StaticResource MenuButton}" Click="NavigateToStatistics"/>
+                <Button Content="Отчеты" Style="{StaticResource MenuButton}" Click="NavigateToReports"/>
+                <Button Content="Пользователи" 
+        Style="{StaticResource MenuButton}" 
+        Click="NavigateToUserManagement" 
+        Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <Button Content="Выход" Style="{StaticResource MenuButton}" Click="Logout"/>
+            </StackPanel>
+        </Border>
+        <Grid Margin="210,10,10,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <TextBlock Text="Услуги" FontSize="24" FontWeight="Bold" Foreground="#333" VerticalAlignment="Center"/>
+                <Button x:Name="CloseButton" HorizontalAlignment="Right" Width="30" Height="30" Background="Transparent" BorderThickness="0" Click="CloseButton_Click">
+                    <Image Source="/Images/close.png" Width="20"/>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1" Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Background="#FFFFFF" CornerRadius="10" Padding="20" Margin="0,0,10,0" Width="350">
+                    <StackPanel>
+                        <TextBlock Text="Новая услуга" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,20"/>
+                        <TextBlock Text="Название" Margin="0,0,0,5"/>
+                        <TextBox x:Name="textbox1" Style="{StaticResource ModernTextBox}"/>
+                        <TextBlock Text="Описание" Margin="0,0,0,5"/>
+                        <TextBox x:Name="textbox2" Style="{StaticResource ModernTextBox}"/>
+                        <TextBlock Text="Продолжительность (мин)" Margin="0,0,0,5"/>
+                        <TextBox x:Name="textbox3" Style="{StaticResource ModernTextBox}"/>
+                        <TextBlock Text="Стоимость (₽)" Margin="0,0,0,5"/>
+                        <TextBox x:Name="textbox4" Style="{StaticResource ModernTextBox}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button x:Name="button2" Content="Добавить/Обновить" Style="{StaticResource ModernButton}" Click="Button_Click" Width="120"/>
+                            <Button x:Name="button5" Content="Очистить" Style="{StaticResource ModernButton}" Click="ClearFields" Width="100"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Background="#FFFFFF" CornerRadius="10" Padding="20">
+                    <StackPanel>
+                        <TextBlock Text="Поиск услуг" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBox x:Name="searchNameTextBox" Width="200" Margin="0,0,10,0" Style="{StaticResource ModernTextBox}"/>
+                            <Button Content="Найти" Style="{StaticResource ModernButton}" Click="SearchTreatmentButton_Click" Width="100"/>
+                        </StackPanel>
+                        <TextBlock Text="Список услуг" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <wpf:ListBox x:Name="listbox1" Height="350" SelectionChanged="ListBox_SelectionChanged">
+                            <wpf:ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#F9F9F9" CornerRadius="5" Padding="10" Margin="0,2">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Название}" FontWeight="SemiBold"/>
+                                            <TextBlock Text="{Binding Описание, StringFormat=Описание: {0}}" Foreground="#666"/>
+                                            <TextBlock Text="{Binding Продолжительность, StringFormat=Продолжительность: {0} мин}" Foreground="#666"/>
+                                            <TextBlock Text="{Binding Стоимость, StringFormat=Стоимость: {0} ₽}" Foreground="#666"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </wpf:ListBox.ItemTemplate>
+                        </wpf:ListBox>
+                        <Button x:Name="button3" Content="Удалить" Style="{StaticResource ModernButton}" Click="Button_Click_1" Width="100" HorizontalAlignment="Right" Margin="0,10,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

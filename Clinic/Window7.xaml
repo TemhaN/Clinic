@@ -1,0 +1,233 @@
+﻿<Window x:Class="WpfApp20.Window7"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:local="clr-namespace:WpfApp20"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Статистика" Height="800" Width="1100"
+        Background="#F5F7FA" WindowStyle="None">
+    <Window.Resources>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Background" Value="#3AADA1"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2E8B83"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#266F66"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" Padding="10">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E6ECEC"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Стили для DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E6ECEC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="MinWidth" Value="800"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#F9FAFB"/>
+            <Setter Property="CanUserResizeColumns" Value="True"/>
+            <Setter Property="CanUserSortColumns" Value="False"/>
+            <Setter Property="EnableRowVirtualization" Value="False"/>
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border Background="{TemplateBinding Background}" BorderThickness="0" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#E6ECEC"/>
+                    <Setter Property="Foreground" Value="#333333"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#EDF2F7"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="Background" Value="#F5F7FA"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="#E6ECEC"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridColumnHeader">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid>
+            <Border Background="#FFFFFF" Width="200" HorizontalAlignment="Left" BorderBrush="#E6ECEC" BorderThickness="0,0,1,0">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Санаторий" FontSize="20" FontWeight="Bold" FontFamily="Segoe UI" Foreground="#333" Margin="0,10,0,20"/>
+                    <Button x:Name="AppointmentsButton" Content="Записи" Style="{StaticResource MenuButton}" Click="NavigateToAppointments"/>
+                    <Button x:Name="TreatmentButton" Content="Лечение" Style="{StaticResource MenuButton}" Click="NavigateToTreatment"/>
+                    <Button x:Name="StaffButton" Content="Персонал" Style="{StaticResource MenuButton}" Click="NavigateToStaff"/>
+                    <Button x:Name="PatientsButton" Content="Пациенты" Style="{StaticResource MenuButton}" Click="NavigateToPatients"/>
+                    <Button x:Name="ScheduleButton" Content="Расписание" Style="{StaticResource MenuButton}" Click="NavigateToSchedule"/>
+                    <Button x:Name="StatisticsButton" Content="Статистика" Style="{StaticResource MenuButton}" Click="NavigateToStatistics"/>
+                    <Button x:Name="ReportsButton" Content="Отчеты" Style="{StaticResource MenuButton}" Click="NavigateToReports"/>
+                    <Button Content="Пользователи" Style="{StaticResource MenuButton}" Click="NavigateToUserManagement" 
+                            Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <Button Content="Выход" Style="{StaticResource MenuButton}" Click="Logout"/>
+                </StackPanel>
+            </Border>
+            <Grid Margin="210,10,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <TextBlock Text="Статистика" FontSize="24" FontWeight="Bold" FontFamily="Segoe UI" Foreground="#333" VerticalAlignment="Center"/>
+                    <Button x:Name="CloseButton" HorizontalAlignment="Right" Width="30" Height="30" Background="Transparent" BorderThickness="0" Click="CloseButton_Click">
+                        <Image Source="/Images/close.png" Width="20"/>
+                    </Button>
+                </Grid>
+                <Border Grid.Row="1" Background="#FFFFFF" CornerRadius="10" Padding="20" Margin="0,20,0,0">
+                    <TabControl x:Name="MainTabControl" HorizontalAlignment="Stretch" BorderThickness="0" Background="Transparent">
+                        <TabItem Header="Заболевания">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                                    <TextBlock Text="Выберите месяц" VerticalAlignment="Center" Margin="0,0,10,0" FontFamily="Segoe UI" FontSize="14" Foreground="#333"/>
+                                    <ComboBox x:Name="monthComboBox" Width="120" FontFamily="Segoe UI" FontSize="14"/>
+                                    <TextBlock Text="Выберите год" VerticalAlignment="Center" Margin="20,0,10,0" FontFamily="Segoe UI" FontSize="14" Foreground="#333"/>
+                                    <ComboBox x:Name="yearComboBox" Width="120" FontFamily="Segoe UI" FontSize="14"/>
+                                    <Button x:Name="ExportDiseaseButton" Content="Экспорт в Excel" Style="{StaticResource ModernButton}" Click="ExportDiseaseButton_Click" Margin="20,0,0,0"/>
+                                </StackPanel>
+                                <DataGrid x:Name="statsGrid" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,20,0,20" Grid.Row="1">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Disease}" Header="Заболевание" MinWidth="200" Width="2*"/>
+                                        <DataGridTextColumn Binding="{Binding Count}" Header="Количество" MinWidth="100" Width="*"/>
+                                        <DataGridTextColumn Binding="{Binding Percentage, StringFormat={}{0:F2}%}" Header="Процент" MinWidth="100" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <lvc:PieChart x:Name="diseaseChart" Grid.Row="2" Height="300" Margin="0,0,0,20" LegendLocation="Right"/>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Посещаемость">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                                    <TextBlock Text="Выберите год" VerticalAlignment="Center" Margin="0,0,10,0" FontFamily="Segoe UI" FontSize="14" Foreground="#333"/>
+                                    <ComboBox x:Name="yearAttendanceComboBox" Width="120" FontFamily="Segoe UI" FontSize="14"/>
+                                    <Button x:Name="ExportAttendanceButton" Content="Экспорт в Excel" Style="{StaticResource ModernButton}" Click="ExportAttendanceButton_Click" Margin="20,0,0,0"/>
+                                </StackPanel>
+                                <DataGrid x:Name="attendanceGrid" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,20,0,20" Grid.Row="1">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Month}" Header="Месяц" MinWidth="200" Width="2*"/>
+                                        <DataGridTextColumn Binding="{Binding Count}" Header="Количество посещений" MinWidth="150" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <lvc:CartesianChart x:Name="attendanceChart" Grid.Row="2" Height="300" Margin="0,0,0,20"/>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Статистика врачей">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                                    <TextBlock Text="Выберите год" VerticalAlignment="Center" Margin="0,0,10,0" FontFamily="Segoe UI" FontSize="14" Foreground="#333"/>
+                                    <ComboBox x:Name="yearDoctorComboBox" Width="120" FontFamily="Segoe UI" FontSize="14"/>
+                                    <Button x:Name="ExportDoctorButton" Content="Экспорт в Excel" Style="{StaticResource ModernButton}" Click="ExportDoctorButton_Click" Margin="20,0,0,0"/>
+                                </StackPanel>
+                                <DataGrid x:Name="doctorStatsGrid" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,20,0,20" Grid.Row="1">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding DoctorName}" Header="Врач" MinWidth="200" Width="2*"/>
+                                        <DataGridTextColumn Binding="{Binding AppointmentCount}" Header="Количество приемов" MinWidth="150" Width="*"/>
+                                        <DataGridTextColumn Binding="{Binding PatientCount}" Header="Количество пациентов" MinWidth="150" Width="*"/>
+                                        <DataGridTextColumn Binding="{Binding AverageAppointmentsPerPatient, StringFormat=F2}" Header="Среднее кол-во приемов на пациента" MinWidth="200" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <lvc:CartesianChart x:Name="doctorChart" Grid.Row="2" Height="300" Margin="0,0,0,20"/>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Window>

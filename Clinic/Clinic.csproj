@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.5.1" />
+    <PackageReference Include="EPPlus" Version="8.0.5" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
+    <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.119" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="ClinicDB.sqlite">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Converters.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Screenshots\" />
+  </ItemGroup>
+
+</Project>
